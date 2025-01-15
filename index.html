@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cova - AI Agent Creator</title>
+    <style>
+
+* {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .running-text {
+            white-space: nowrap;
+            position: absolute;
+            animation: moveText 20s linear infinite;
+            color: #FF8C00;
+            font-size: 1.2em;
+            width: 100%;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        /* Ensure grid items don't overflow */
+        .features, .testimonial-grid, .coming-soon-grid {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0 20px;
+        }
+
+        /* Make partner logos responsive */
+        .partners {
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .partner-logo {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Ensure testimonial cards don't overflow */
+        .testimonial-card {
+            width: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: #111;
+            color: #FFA500;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            text-align: center;
+            color: #FFA500;
+            margin-bottom: 30px;
+            font-size: 12px;
+        }
+
+        .running-text {
+            white-space: nowrap;
+            position: absolute;
+            animation: moveText 20s linear infinite;
+            color: #FF8C00;
+            font-size: 1.2em;
+            width: 100%;
+            top: 20px;
+        }
+
+        @keyframes moveText {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #FFA500;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #FFA500; }
+            to { text-shadow: 0 0 20px #FFA500, 0 0 30px #FF8C00; }
+        }
+
+        section {
+            margin: 40px 0;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        section:hover {
+            transform: scale(1.02);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #FFA500;
+            color: #111;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background-color: #FF8C00;
+            transform: translateY(-2px);
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            from { transform: translateX(-100%) rotate(45deg); }
+            to { transform: translateX(100%) rotate(45deg); }
+        }
+        
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 165, 0, 0.2);
+        }
+
+        .faq-item {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background-color: #333;
+        }
+
+        .faq-item h3 {
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item h3::after {
+            content: '+';
+            font-size: 1.5em;
+        }
+
+        .faq-item.active h3::after {
+            content: '-';
+        }
+
+        .faq-content {
+            display: none;
+            padding-top: 10px;
+        }
+
+        .faq-item.active .faq-content {
+            display: block;
+        }
+
+        .stats-counter {
+            text-align: center;
+            margin: 40px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.5em;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            display: inline-block;
+            color: #FFA500;
+            font-size: 24px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FF8C00;
+            transform: translateY(-2px);
+        }
+
+        .loved-by-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+        }
+
+        .loved-by-text {
+            color: #FFA500;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .avatar-stack {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid #222;
+            margin-left: -15px;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .avatar:hover {
+            transform: translateY(-5px);
+            z-index: 10;
+        }
+
+        .partners {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo {
+            height: 40px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            opacity: 1;
+        }
+
+        .how-it-works {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .step-card {
+            background: #222;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .step-number {
+            font-size: 2em;
+            color: #FFA500;
+            margin-bottom: 15px;
+        }
+
+        .testimonials {
+            margin: 60px 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .testimonial-card {
+            background: #222;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid #FFA500;
+        }
+
+        .testimonial-name {
+            color: #FFA500;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .testimonial-role {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .what-is-cova {
+            text-align: center;
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255, 165, 0, 0.1);
+            border-radius: 20px;
+        }
+
+        .partners-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .partners-section h2 {
+            color: #FFA500;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+        }
+
+        .partners {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .beta-badge {
+            position: fixed; /* Change to fixed to follow scroll */
+            top: 60px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 165, 0, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: top 0.3s ease; /* Smooth transition for scroll effect */
+        }
+
+
+        .beta-badge i {
+            color: #FFA500;
+            font-size: 1.2em;
+        }
+
+        .beta-badge span {
+            color: #FFA500;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .coming-soon {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #111;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .coming-soon h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #FFA500;
+            padding: 0 20px;
+            color: #FFA500;
+        }
+
+        .coming-soon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            height: calc(100vh - 120px);
+            max-width: 100%;
+            margin: 0 auto;
+            width: 100%;
+            background: #1a1a1a;
+        }
+
+        .coming-soon-item {
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: none;
+        }
+
+        .coming-soon-item:nth-child(1) {
+            background: linear-gradient(135deg, #2a1f1f, #2d2420);
+        }
+
+        .coming-soon-item:nth-child(2) {
+            background: linear-gradient(135deg, #1f1f2a, #20202d);
+        }
+
+        .coming-soon-item:nth-child(3) {
+            background: linear-gradient(135deg, #1f2a2a, #202d2d);
+        }
+
+        .coming-soon-item:nth-child(4) {
+            background: linear-gradient(135deg, #2a1f2a, #2d202d);
+        }
+
+        .coming-soon-item i {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #FFA500;
+        }
+
+        .coming-soon-item h3 {
+            font-size: 1.5em;
+            margin: 15px 0;
+            color: #FFA500;
+        }
+
+        .coming-soon-item p {
+            font-size: 1.1em;
+            color: #FFB84D;
+            margin-bottom: 20px;
+            max-width: 80%;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 165, 0, 0.1);
+            color: #FFA500;
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 165, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .coming-soon-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+            
+            .coming-soon-item {
+                min-height: 50vh;
+            }
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="beta-badge">
+        <i class="fas fa-flask"></i>
+        Beta
+    </div>
+
+    <div class="container">
+        <div class="running-text">
+            Welcome to Cova - The Future of AI Agents - Create, Deploy, and Manage Your AI Assistants with Ease
+        </div>
+        
+        <header>
+
+            <div class="ascii-art" id="covaAscii">
+  ______   ______     __   __   ______    
+ /\  ___\ /\  __ \   /\ \ / /  /\  __ \   
+ \ \ \__/ \ \ \/\ \  \ \ \'/   \ \  __ \  
+  \ \____\ \ \_____\  \ \__|    \ \_\ \_\ 
+   \/____/  \/_____/   \/_/      \/_/\/_/
+
+</div>
+            <h1>COVA LABS</h1>
+            <p>Create your own AI agents with ease</p>
+            <div class="social-links">
+                <a href="https://twitter.com/sphere_ai" target="_blank" title="Follow us on Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <a href="ai-agent.html" class="cta-button">Open App</a>
+        </header>
+
+        <!-- Rest of the content remains the same -->
+    </div>
+
+        <div class="stats-counter">
+            <div class="stat-item">
+                <span id="agentsCounter">0</span>
+                <div class="stat-label">AI Agents Created</div>
+            </div>
+            <div class="stat-item">
+                <span id="usersCounter">0</span>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-item">
+                <span id="tasksCounter">0</span>
+                <div class="stat-label">Tasks Completed</div>
+            </div>
+        </div>
+
+        <div class="loved-by-section">
+            <div class="loved-by-text">Loved by 500+ users</div>
+            <div class="avatar-stack">
+                <img src="https://i.pravatar.cc/150?img=1" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=2" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=3" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=4" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=5" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=6" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=7" alt="User" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=8" alt="User" class="avatar">
+            </div>
+        </div>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>Cova is your gateway to creating powerful AI agents using advanced technology and Web3 innovation. Build, customize, and deploy your own AI assistants with just a few simple steps, all while leveraging the decentralized potential of Web3.</p>
+            
+            <div class="partners-section">
+                <h2>Partners</h2>
+                <div class="partners">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft" class="partner-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="OpenAI" class="partner-logo">
+                    <img src="https://claude.ai/favicon.ico" alt="Claude AI" class="partner-logo">
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2>Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Easy Integration</h3>
+                    <p>Connected with LLM modules</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Custom Agents</h3>
+                    <p>Create AI agents tailored to your needs</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Quick Setup</h3>
+                    <p>Get started in minutes</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="what-is-cova">
+            <h2>What is Cova?</h2>
+            <p>A web app that makes choices and performs tasks on its own, based on the goals set by you.</p>
+        </section>
+
+        <section class="how-it-works">
+            <h2>How Does it Work?</h2>
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Connect Your Wallet</h3>
+                    <p>Link your Phantom wallet to get started with Cova</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Choose Your Model</h3>
+                    <p>Select between GPT-3.5 and GPT-4 based on your needs</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Define Your Agent</h3>
+                    <p>Set your agent's purpose and behavior</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Deploy & Use</h3>
+                    <p>Your AI agent is ready to assist you</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="User" class="testimonial-avatar">
+                    <p>"Cova has revolutionized how I handle my social media presence. The AI agents are incredibly efficient!"</p>
+                    <div class="testimonial-name">Sarah Johnson</div>
+                    <div class="testimonial-role">Digital Marketer</div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=12" alt="User" class="testimonial-avatar">
+                    <p>"The automation capabilities are mind-blowing. It's like having a personal assistant 24/7."</p>
+                    <div class="testimonial-name">Michael Chen</div>
+                    <div class="testimonial-role">Entrepreneur</div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=13" alt="User" class="testimonial-avatar">
+                    <p>"Setting up my AI agent was surprisingly easy. The interface is intuitive and user-friendly."</p>
+                    <div class="testimonial-name">Emma Davis</div>
+                    <div class="testimonial-role">Content Creator</div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=14" alt="User" class="testimonial-avatar">
+                    <p>"The GPT-4 integration is fantastic. My chatbot provides incredibly accurate responses."</p>
+                    <div class="testimonial-name">Alex Thompson</div>
+                    <div class="testimonial-role">Tech Lead</div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=15" alt="User" class="testimonial-avatar">
+                    <p>"Cova has helped me automate repetitive tasks and focus on what really matters."</p>
+                    <div class="testimonial-name">Lisa Wong</div>
+                    <div class="testimonial-role">Business Owner</div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="https://i.pravatar.cc/150?img=16" alt="User" class="testimonial-avatar">
+                    <p>"The customer support is exceptional. They helped me set up my agent perfectly."</p>
+                    <div class="testimonial-name">David Miller</div>
+                    <div class="testimonial-role">Freelancer</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="coming-soon">
+            <h2>Coming Soon</h2>
+            <div class="coming-soon-grid">
+                <div class="coming-soon-item">
+                    <span class="coming-soon-badge">Q1 2025</span>
+                    <i class="fas fa-robot"></i>
+                    <h3>Multi-Agent System</h3>
+                    <p>Create teams of AI agents that work together to solve complex tasks</p>
+                </div>
+                <div class="coming-soon-item">
+                    <span class="coming-soon-badge">Q2 2025</span>
+                    <i class="fas fa-brain"></i>
+                    <h3>Advanced Learning</h3>
+                    <p>Empower your AI agents with cutting-edge adaptive learning for unparalleled efficiency and performance</p>
+                </div>
+                <div class="coming-soon-item">
+                    <span class="coming-soon-badge">Q3 2025</span>
+                    <i class="fas fa-plug"></i>
+                    <h3>Interactive web3 Integration</h3>
+                    <p>Unlock the power of Web3 with AI agents seamlessly integrated into decentralized ecosystems.</p>
+                </div>
+                <div class="coming-soon-item">
+                    <span class="coming-soon-badge">Q4 2025</span>
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Gain deeper insights with robust analytics tools to track, measure, and optimize your AI agents' performance metrics</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>What is an AI Agent?</h3>
+                <div class="faq-content">
+                    <p>An AI Agent is a digital entity powered by artificial intelligence, designed to perform specific tasks independently. Unlike traditional chatbots, AI Agents can handle complex workflows, automate actions, and interact intelligently with various platforms. On Cova, you can create AI Agents that not only respond but also execute tasks like Twitter automation and personalized interactions.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <h3>How is an AI Agent different from ChatGPT or Claude?</h3>
+                <div class="faq-content">
+                    <p>While ChatGPT and Claude are conversational AI tools focused on generating text-based responses, AI Agents on Cova go beyond by:
+
+                        - Automating tasks (e.g., posting tweets, scheduling actions).
+                        - Integrating with platforms and tools to execute commands.
+                        - Being customizable to specific personalities, purposes, and workflows.
+                        Cova allows you to design AI characters with unique traits and capabilities tailored to your needs.
+                        </p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <h3>Can I customize the AI Agents on Cova?</h3>
+                <div class="faq-content">
+                    <p>Absolutely! Cova enables you to create fully personalized AI Agents. You can customize their personalities, behaviors, and even their tone of communication. Whether you need a witty Twitter bot, a helpful customer service agent, or a creative storyteller, Cova makes it easy to bring your vision to life.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <h3>What kind of tasks can Cova AI Agents automate?</h3>
+                <div class="faq-content">
+                    <p>Cova AI Agents are versatile and can handle tasks such as:
+
+                        - Automating Twitter posts and interactions.
+                        - Engaging in intelligent conversations based on their programmed personality.
+                        - Providing insights and managing data based on input.
+                        This flexibility empowers users to focus on creativity and strategy while letting AI handle the repetitive work.
+                        </p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <h3>Does Cova require a wallet connection?</h3>
+                <div class="faq-content">
+                    <p>Yes, a wallet connection is required because Cova uses data from large language models like OpenAI and Cove. Additionally, ensure your wallet has sufficient funds to utilize the system. However, during the beta phase, Cova is entirely free to use. Rest assured, wallet security is guaranteed as we use trusted third-party services to manage safety.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+
+                window.addEventListener('scroll', () => {
+            const badge = document.querySelector('.beta-badge');
+            const scrollTop = window.scrollY;
+            
+            // When scroll is at top, position badge below running text
+            if (scrollTop < 40) {
+                badge.style.top = '60px';
+            } else {
+                // When scrolling, keep badge at top with small margin
+                badge.style.top = '20px';
+            }
+        });
+        // Animate counters
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                element.textContent = Math.floor(start);
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        // Start counter animations when page loads
+        window.addEventListener('load', () => {
+            animateCounter(document.getElementById('agentsCounter'), 69, 2000);
+            animateCounter(document.getElementById('usersCounter'), 617, 2000);
+            animateCounter(document.getElementById('tasksCounter'), 82, 2000);
+        });
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ASCII art animation
+        const asciiArt = document.getElementById('covaAscii');
+        let colorIndex = 0;
+        const colors = ['#FFA500', '#FF8C00', '#FFD700', '#FF6347'];
+        
+        setInterval(() => {
+            colorIndex = (colorIndex + 1) % colors.length;
+            asciiArt.style.color = colors[colorIndex];
+        }, 1000);
+    </script>
+</body>
+</html>

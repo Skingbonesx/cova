@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Keep the existing head section and styles -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cova - Create AI Agent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+            color: #FFA500;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #FFA500;
+            animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFA500, transparent);
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #FFA500; }
+            to { text-shadow: 0 0 20px #FFA500, 0 0 30px #FF8C00; }
+        }
+
+        .form-container {
+            background: rgba(34, 34, 34, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 165, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(255, 165, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            color: #FFA500;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #FFA500;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 35px 12px 12px;
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #FFA500;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #FF8C00;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
+            background-color: rgba(51, 51, 51, 0.9);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Checkbox styles */
+        .checkbox-group {
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group label {
+            text-transform: none;
+            letter-spacing: normal;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 15px;
+            background: rgba(51, 51, 51, 0.8);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            background: rgba(51, 51, 51, 0.9);
+            border-color: #FF8C00;
+            transform: translateY(-2px);
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-option .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #FFA500;
+            border-radius: 5px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-custom {
+            background: #FFA500;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-custom::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #111;
+            font-size: 12px;
+        }
+
+        .checkbox-option span {
+            font-size: 0.9em;
+        }
+
+        /* Create Agent Button */
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        button:disabled {
+            background: linear-gradient(45deg, #666, #777);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #FFA500;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .back-link i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #FF8C00;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-5px);
+        }
+
+        .error-message {
+            color: #ff4444;
+            background-color: rgba(255, 68, 68, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FFA500, #FF8C00);
+            color: #111;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        button:disabled {
+            background: linear-gradient(45deg, #666, #777);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 35px 12px 12px;
+            border: 2px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #FFA500;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #FF8C00;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
+            background-color: rgba(51, 51, 51, 0.9);
+        }
+
+        .form-group.select-group {
+            position: relative;
+        }
+
+        .form-group.select-group i.fa-chevron-down {
+            position: absolute;
+            right: 15px;
+            top: 45px;
+            color: #FFA500;
+            pointer-events: none;
+        }
+
+        /* Keep all other styles the same */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your AI Agent</h1>
+        <div class="form-container">
+            <div id="errorMessage" class="error-message"></div>
+            <form id="createAgentForm">
+                <div class="form-group select-group">
+                    <label for="languageModel">Language Model</label>
+                    <select id="languageModel" name="languageModel" required>
+                        <option value="gpt3.5">GPT 3.5 - Fast</option>
+                        <option value="gpt4">GPT 4.0 - Turbo</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="form-group">
+                    <label for="agentName">Agent Name</label>
+                    <input type="text" id="agentName" name="agentName" required placeholder="Give your agent a name">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="checkbox-group">
+                    <label>Agent Purpose</label>
+                    <div class="checkbox-options">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="purpose" value="twitter">
+                            <div class="checkbox-custom"></div>
+                            <span>Automation Twitter</span>
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="purpose" value="chatbot">
+                            <div class="checkbox-custom"></div>
+                            <span>Chatbot</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="agentDescription">Agent Description</label>
+                    <textarea id="agentDescription" name="agentDescription" rows="4" required placeholder="Describe what your agent should do"></textarea>
+                    <i class="fas fa-comment-alt"></i>
+                </div>
+                <button type="button" id="connectWalletBtn">
+                    <i class="fas fa-wallet"></i> Connect Wallet
+                </button>
+            </form>
+        </div>
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+    <!-- Add the script module -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>

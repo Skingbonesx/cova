@@ -1,0 +1,12 @@
+{
+  "name": "sphere",
+  "version": "1.0.0",
+  "description": "Sphere AI Agent Creator",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.1",
+    "@solana/web3.js": "^1.87.6"
+  }
+}
