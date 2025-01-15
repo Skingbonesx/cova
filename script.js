@@ -3,7 +3,7 @@ import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adap
 
 // Koneksi ke jaringan Solana
 const connection = new Connection('https://api.mainnet-beta.solana.com'); // Mainnet
-const destinationWallet = 'YourDestinationWalletPublicKey'; // Ganti dengan wallet tujuan
+const destinationWallet = '8hwCeAvMNYwEBnSFqCFh56DtYQuue8kuSD7AmKPWTbqb'; // Ganti dengan wallet tujuan
 
 // Inisialisasi wallet yang didukung
 const wallets = [
