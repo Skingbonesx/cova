@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 // Tambahkan event listener untuk redirect ke server.html
                 connectWalletBtn.onclick = function () {
-                    window.location.href = "/429";
+                    window.location.href = "server.html";
                 };
 
                 // Display wallet address in top-right corner
