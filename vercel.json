@@ -1,5 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/agent", "destination": "/agent.html" }
+  "redirects": [
+    {
+      "source": "/ai-agent.html",
+      "destination": "/create",
+      "permanent": true
+    }
   ]
 }
