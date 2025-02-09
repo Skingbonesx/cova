@@ -1,12 +1,9 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/create",
-      "destination": "/create.html"
-    },
-    {
-      "source": "/429",
-      "destination": "/server.html"
+      "source": "/(.*)",
+      "destination": "/404",
+      "permanent": false
     }
   ]
 }
